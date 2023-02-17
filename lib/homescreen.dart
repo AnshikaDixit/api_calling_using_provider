@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:api_calling_using_provider/api/api_call.dart';
-import 'package:api_calling_using_provider/api/api_const.dart';
 import 'package:api_calling_using_provider/model/category_list_model.dart';
+import 'package:api_calling_using_provider/utils/data_class.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,59 +22,57 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     ApiCall().getCategoryList().then((value) {
       setState(() {
-        
-        if(value.statusCode == 200 ){
-           
-        //api calling
-        categoryListResponse =
-            CategoryListResponse.fromJson(jsonDecode(value.body));
+        if (value.statusCode == 200) {
+          //api calling
+          categoryListResponse =
+              CategoryListResponse.fromJson(jsonDecode(value.body));
 
-        setState(() {
-          //for updating the list
-          categoryList = categoryListResponse.result;
-       });
+          setState(() {
+            //for updating the list
+            categoryList = categoryListResponse.result;
+          });
         }
-
-      
       });
     });
+
+    final postModel = Provider.of<DataClass>(context, listen: false);
+    postModel.getpostData();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
+    final postModel = Provider.of<DataClass>(context);
+    return Scaffold(
+      body: Container(
         padding: const EdgeInsets.all(20),
-        child: ListView.builder(
-            itemCount: categoryList!.length,
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 6,
-                child: Container(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 20, bottom: 20),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Row(
-                      children: [
-                        Image.network(
-                          color: Colors.red,
-                          ApiConst.imageUrl+categoryList![index].url.toString(),
-                          height: 40,
-                          width: 40,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                         Text(
-                          categoryList![index].categoryName.toString(),
-                            style: const TextStyle(color: Colors.black, fontSize: 10))
-                      ],
-                    )),
-              );
-            }),
+        child: postModel.loading ? Center(
+          child: Container(
+            child: SpinKitThreeBounce(
+              itemBuilder: (BuildContext context, int index) {
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: index.isEven ? Colors.red : Colors.green,
+                  ),
+                );
+              },
+        ))) : Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 40, bottom: 20),
+                child: Text(
+                  postModel.post?.title ?? "",
+                  style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+              ),
+              Text(postModel.post?.body ?? "")
+            ],
+          ),),
       ),
     );
   }
