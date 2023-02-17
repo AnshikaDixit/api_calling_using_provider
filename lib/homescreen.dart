@@ -13,7 +13,8 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+ 
+//6- load and show data
 class _HomeScreenState extends State<HomeScreen> {
   late CategoryListResponse categoryListResponse;
   List<Result>? categoryList = [];
@@ -48,17 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         padding: const EdgeInsets.all(20),
         child: postModel.loading ? Center(
-          child: Container(
-            child: SpinKitThreeBounce(
-              itemBuilder: (BuildContext context, int index) {
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: index.isEven ? Colors.red : Colors.green,
-                  ),
-                );
-              },
-        ))) : Center(
+          child: SpinKitThreeBounce(
+            itemBuilder: (BuildContext context, int index) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: index.isEven ? Colors.red : Colors.green,
+                ),
+              );
+            },
+        )) : Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

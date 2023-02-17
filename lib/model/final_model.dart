@@ -1,3 +1,4 @@
+//2- create data model
 class Result {
   int? userId;
   int? id;

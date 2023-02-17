@@ -12,6 +12,7 @@ class ApiCall {
         headers: headers);
   }
 
+  //3- Create a service class for data loading
   Future<Result?> getPostsData() async {
     Result? result;
 

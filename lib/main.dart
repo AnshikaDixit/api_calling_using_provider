@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    //5- Create Provider with ChangeNotifierProvider
     return ChangeNotifierProvider(
     create: ((context) => DataClass()),
       child: MaterialApp(

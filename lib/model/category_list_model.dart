@@ -35,7 +35,7 @@ class CategoryListResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['isSuccess'] = _isSuccess;
     data['message'] = _message;
     if (_result != null) {
@@ -83,7 +83,7 @@ class Result {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['category_name'] = _categoryName;
     data['url'] = _url;
